@@ -1,20 +1,71 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{title}}!
-  </h1>
-  <img width="300" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<form #form="ngForm" class="user-form" (submit)="submit(form)">
+  <fieldset ngModelGroup="person">
+    <div class="form-group">
+      <label class="required">Name</label>
+      <input required minlength="3" #name="ngModel" class="form-control" name="name" [ngModel]="formModel.person.name"/>
+      <span class="error-display" *ngIf="name.invalid && name.dirty">{{name?.errors | json}}</span>
+    </div>
+    <div class="form-group">
+      <label class="required">Age</label>
+      <input #age="ngModel" class="form-control" name="age" [ngModel]="formModel.person.age"/>
+      <span class="error-display" *ngIf="age.invalid && age.dirty">{{age?.errors | json}}</span>
+    </div>
+  </fieldset>
+  <div class="form-group">
+    <label class="required">City</label>
+    <input #city="ngModel" asyncValidator class="form-control" name="city" [ngModel]="formModel.city"/>
+    <span class="error-display" *ngIf="city.pending">Loading...</span>
+    <span class="error-display" *ngIf="city.invalid && city.dirty">{{city?.errors | json}}</span>
+  </div>
+  <div class="form-group">
+    <label class="required">Email</label>
+    <input #email="ngModel" emailValidation class="form-control" name="email" [ngModel]="formModel.email"/>
+    <span class="error-display" *ngIf="email.invalid && email.dirty">{{email?.errors | json}}</span>
+  </div>
+  <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Submit</button>
+</form>
 
+<div class="container">
+  <div class="row">
+    <div class="col"><b>Form Properties:</b></div>
+    <div class="col"><b>Model:</b></div>
+    <div class="col"><b>Form Values:</b></div>
+  </div>
+
+  <div class="row">
+    <div class="col" [class.warning]="!form.valid" [class.success]="form.valid">
+      Valid: {{form.valid}}
+    </div>
+    <div class="col">
+      Name: {{formModel.person.name}}
+    </div>
+    <div class="col">
+      Name: {{form.value.person?.name}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col" [class.warning]="!form.untouched" [class.success]="form.untouched">
+      Untouched: {{form.untouched}}
+    </div>
+    <div class="col">
+      Age: {{formModel.person.age}}
+    </div>
+    <div class="col">
+      Age: {{form.value.person?.age}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col" [class.warning]="!form.pristine" [class.success]="form.pristine">
+      Pristine: {{form.pristine}}
+    </div>
+    <div class="col">
+      City: {{formModel.city}}
+    </div>
+    <div class="col">
+      City: {{form.value?.city}}
+    </div>
+  </div>
+  <div class="row">
+    {{form.pending | json}}
+  </div>
+</div>

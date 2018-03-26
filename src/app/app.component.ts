@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,16 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
+  formModel = {
+    person: {
+      name: 'Mikhail',
+      age: 27
+    },
+    city: undefined,
+    email: 'mm@gmail.com'
+  };
+
+  submit(form: FormGroup) {
+    this.formModel = form.value;
+  }
 }
